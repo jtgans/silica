@@ -1,0 +1,9 @@
+* The core of the Navi operating environment
+
+Silica is the core bits of the Navi operating environment, and part of the [[https://github.com/jtgans/navi][Navi
+Project]].
+
+For now, this is just a stub project until the Gypsum code is fleshed out more.
+Eventually this project will contain the various applications and services that
+will make up the UI and main applications the user interacts with, including a
+graphical REPL, debugger, and browser for the host lisp system.
