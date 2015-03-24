@@ -5,5 +5,6 @@
   :author "June Tate-Gans <june@theonelab.com>"
   :license "Simplified BSD License"
   :serial t
-  :depends (:cl-gypsum-client :cl-evdev)
-  :components ((:file "package")))
+  :depends-on (#:cl-gypsum-client #:cl-evdev)
+  :components ((:file "package")
+               (:file "silica")))
