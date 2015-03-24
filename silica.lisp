@@ -2,5 +2,7 @@
 
 (in-package #:silica)
 
+(export 'silica)
+
 (defun silica ()
-  (print "Silica v0.1"))
+  (format t "Silica v0.1~%"))
