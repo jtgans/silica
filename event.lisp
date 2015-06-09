@@ -1,8 +1,20 @@
 (in-package :silica)
 
+(defclass event ()
+  ()
+  (:documentation "An event."))
+
+(defclass ping-event (event)
+  ()
+  (:documentation "An event used to ping a handler for aliveness."))
+
+(defclass quit-event (event)
+  ()
+  (:documentation "An event used to ask a handler to stop running."))
+
 (defclass draw-event (event)
   ()
-  (:documentation "An event that represents a redraw request."))
+  (:documentation "An event that represents a draw request."))
 
 (defclass assign-event (event)
   ((frame :initarg :frame
