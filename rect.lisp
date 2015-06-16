@@ -1,16 +1,5 @@
 (in-package :silica)
 
-(export '(rect
-          rect-top
-          rect-right
-          rect-bottom
-          rect-left
-          rect-width
-          rect-height
-          rect-x
-          rect-y
-          subdivide-rect))
-
 (defclass rect ()
   ((top :initform 0
         :type integer
