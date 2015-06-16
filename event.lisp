@@ -1,8 +1,11 @@
 (in-package :silica)
 
 (defclass event ()
-  ()
-  (:documentation "An event."))
+  ((sender :initarg :sender
+           :type handler
+           :reader sender))
+  (:documentation "An event. SENDER contains the HANDLER to use for
+responses."))
 
 (defclass ping-event (event)
   ()
