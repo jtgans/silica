@@ -42,25 +42,15 @@ event-thread context. The default method does nothing."))
   (values))
 
 (defmethod handle-event ((handler handler) (event ping-event))
-  (log:info "PONG from ~a" handler)
+  (with-slots (sender) event
+    (when (not (null sender))
+      (log:info "PING from ~a" sender)
+      (post-event sender (make-instance 'pong-event :sender handler))))
   (values))
 
-(defmethod handle-event ((handler handler) (event quit-event))
-  (log:info "Quit received -- terminating thread.")
-  (terminate-thread (slot-value handler 'event-thread))
-  (values))
-
-(defmethod initialize-instance :after ((handler handler) &key name)
-  (with-slots (event-thread event-waitqueue queue-lock) handler
-    (setf event-waitqueue (make-waitqueue :name (concatenate 'string name "-waitqueue"))
-          queue-lock (make-mutex :name (concatenate 'string name "-queuemutex")))))
-
-(defmethod start-handler ((handler handler))
-  (with-slots (event-thread name) handler
-    (when (or (null event-thread) (not (thread-alive-p event-thread))))
-      (setf event-thread (make-thread #'(lambda () (handler-runloop handler))
-                                      :name name))
-      (log:info "Event loop started for handler ~a" handler)))
+(defmethod handle-event ((handler handler) (event pong-event))
+  (with-slots (sender) event
+    (log:info "PONG from ~a" sender)))
 
 (defun handler-runloop (handler)
   "Handles each event on the event queue by popping the end of calling `handle-event' on each event
