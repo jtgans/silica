@@ -2,7 +2,7 @@
 
 (let ((packages '("cl-evdev"
                   "cl-gypsum-client"
-                  "sb-events"
+                  "cl-event-handler"
                   "silica")))
   (loop for package in packages do
        (push (truename (concatenate 'string "../" package)) asdf:*central-registry*)))
