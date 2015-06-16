@@ -5,10 +5,11 @@ LISP_SRCS := \
 	build.lisp
 
 silica: $(LISP_SRCS)
-	sbcl --load build.lisp
+	ASDF_OUTPUT_TRANSLATIONS=/:$(shell pwd)/../out/silica-fasl sbcl --load build.lisp
 
 clean:
-	rm -f silica
+	rm -f ../out/silica
+	rm -rf ../out/silica-fasl
 
 test:
 
