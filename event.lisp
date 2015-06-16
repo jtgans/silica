@@ -11,6 +11,10 @@ responses."))
   ()
   (:documentation "An event used to ping a handler for aliveness."))
 
+(defclass pong-event (event)
+  ()
+  (:documentation "An event used as a reply to PING-EVENT events."))
+
 (defclass quit-event (event)
   ()
   (:documentation "An event used to ask a handler to stop running."))
