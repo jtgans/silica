@@ -7,9 +7,7 @@
   :serial t
   :depends-on (#:cl-gypsum-client
                #:cl-evdev
-               #:sb-events
-               #:bordeaux-threads
-               #:chanl)
+               #:cl-event-handler)
   :components ((:file "package")
                (:file "silica")
                (:file "event")
