@@ -6,23 +6,10 @@
     :type string
     :initarg :name
     :documentation "The name of this handler.")
-   (event-thread
-    :initform nil
-    :type thread
-    :initarg :event-thread
-    :documentation "The thread used for event dispatch.")
-   (event-waitqueue
-    :initform nil
-    :type waitqueue
-    :documentation "Waitqueue for signaling when a new event has come in.")
-   (queue-lock
-    :initform nil
-    :type mutex
-    :documentation "Lock to control access to the event-queue.")
-   (event-queue
-    :initform nil
-    :type list
-    :documentation "A list containing incoming events to handle."))
+   (event-channel
+    :initform (make-instance 'unbounded-channel)
+    :initarg :event-channel
+    :documentation "The channel to use for listening for inbound events."))
   (:documentation "A handler is an event handling object that spawns a thread to
 dispatch events placed on its queue. Events are sent to the handler via the
 `post-event' generic method, and are executed via the `handle-event' generic
@@ -42,15 +29,13 @@ event-thread context. The default method does nothing."))
 
 (defmethod print-object ((object handler) stream)
   (print-unreadable-object (object stream :type t)
-    (with-slots (name event-thread event-queue) object
-      (format stream ":NAME ~a :EVENT-THREAD ~a :EVENT-QUEUE ~a"
-              name event-thread event-queue))))
+    (with-slots (name event-channel) object
+      (format stream ":NAME ~a :EVENT-cHANNEL ~a"
+              name event-channel))))
 
 (defmethod post-event ((handler handler) (event event))
-  (with-slots (event-waitqueue queue-lock event-queue) handler
-    (with-mutex (queue-lock)
-      (setf event-queue (nconc (list event) event-queue))
-      (condition-notify event-waitqueue))))
+  (with-slots (event-channel) handler
+    (send event-channel event)))
 
 (defmethod handle-event ((handler handler) (event event))
   (log:warn "Unhandled event for ~a: ~a" handler event)
@@ -80,12 +65,12 @@ event-thread context. The default method does nothing."))
 (defun handler-runloop (handler)
   "Handles each event on the event queue by popping the end of calling `handle-event' on each event
 in the queue."
-  (with-slots (event-waitqueue queue-lock event-queue) handler
-      (with-mutex (queue-lock)
-        (loop
-           (loop
-              (unless event-queue (return))
-              (let ((event (first (last event-queue))))
-                (setf event-queue (nbutlast event-queue))
-                (handle-event handler event)))
-           (condition-wait event-waitqueue queue-lock)))))
+  (with-slots (event-channel) handler
+    (loop
+       (let ((event (recv event-channel)))
+         (handle-event handler event)))))
+
+(defmethod start-handler ((handler handler))
+  (with-slots (name event-channel) handler
+    (pcall #'(lambda () (handler-runloop handler)))
+    (log:info "Event loop started for handler ~a" handler)))
