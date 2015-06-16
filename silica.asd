@@ -12,7 +12,6 @@
                (:file "silica")
                (:file "event")
                (:file "rect")
-               (:file "handler")
                (:file "view")
                (:file "frame")
                (:file "window")
