@@ -1,4 +1,4 @@
-(in-package :cl-gypsum-client)
+(in-package :silica)
 
 (defvar *screen-width* 640
   "The screen width in pixels.")
