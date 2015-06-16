@@ -48,5 +48,5 @@
 (defmethod handle-assign-event (window frame)
   "Event handler for frame assignment events (when the window is attached to a frame).")
 
-(defmethod handle-keyboard-event (window event)
+(defmethod handle-keyboard-event (window state event)
   "Event handler for keyboard input events. Does nothing.")
