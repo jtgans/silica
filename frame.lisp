@@ -11,10 +11,6 @@
   (:documentation "A frame is a VIEW that represents a tree of other VIEWs and
 is used to manage application windows on screen."))
 
-(defvar *frame-tree* (make-instance 'frame
-                                    :rect (make-rect :width *screen-width* :height *screen-height*))
-  "The region layout BSP tree. Each element of the tree is a frame struct.")
-
 (defun frame-leaf-p (frame)
   "Determines if the given FRAME is a leaf node."
   (and (null (frame-first-child frame))
