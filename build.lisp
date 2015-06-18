@@ -1,13 +1,6 @@
-(in-package #:cl-user)
+(in-package :cl-user)
 
-(let ((packages '("cl-evdev"
-                  "cl-gypsum-client"
-                  "cl-event-handler"
-                  "silica")))
-  (loop for package in packages do
-       (push (truename (concatenate 'string "../" package)) asdf:*central-registry*)))
-
-(ql:quickload "silica")
+(load "load.lisp")
 
 (sb-ext:save-lisp-and-die "../out/silica" :toplevel
                           (lambda ()
