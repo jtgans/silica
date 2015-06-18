@@ -10,17 +10,8 @@
           :reader assign-event-frame))
   (:documentation "An event that represents a frame assignment request."))
 
-(defclass keyboard-event (event)
-  ((code :initarg :code
-         :type integer
-         :reader keyboard-event-code)
-   (name :initarg :name
-         :type string
-         :reader keyboard-event-name)
-   (glyph :initarg :glyph
-          :type character
-          :reader keyboard-event-character)
-   (state :initarg :state
-          :type symbol
-          :reader keyboard-event-state))
-  (:documentation "An event that represents a keyboard input event."))
+(defclass layout-event (event)
+  ((rect :initarg :rect
+         :type rect
+         :reader layout-event-rect))
+  (:documentation "Represents a request to re-layout the contents of a VIEW."))
