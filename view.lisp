@@ -45,20 +45,20 @@
       (format stream ":RECT ~a :PARENT ~(~A~) :CHILD-VIEWS ~(~A~) :KEYMAP ~a"
               rect parent-view child-views keymap))))
 
-;;;; Interface
-
-(defgeneric view-layout (view rect)
-  (:documentation "Requests that this view should resize itself to fit the given rect."))
-(defgeneric view-draw (view)
-  (:documentation "Requests that this view should draw itself to the screen."))
-
 ;;;; Default methods and functions
 
-(defmethod view-layout ((view view) rect)
-  (setf (view-rect view) rect))
+(defmethod handle-event ((view view) (event layout-event))
+  "Default LAYOUT-EVENT method that simply sets the VIEW-RECT for this VIEW to
+the LAYOUT-RECT given in the LAYOUT-EVENT."
+  (setf (view-rect view) (layout-rect layout-event))
+  (post-event view (make-instance 'draw-event :sender view)))
 
-(defmethod handle-event ((view view) (event assign-event))
-  )
+(defmethod handle-event ((view view) (event draw-event))
+  "Default draw method that loops through all child views and draws them by
+recursively calling VIEW-DRAW."
+  (with-slots (child-views visible) view
+    (loop for child-view in child-views do
+         (view-draw child-view))))
 
 (defun view-set-visibility (view visibility &key include-children)
   "Sets the given VIEW's visibility to VISIBILITY. Also applies to children if
