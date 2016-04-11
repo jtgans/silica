@@ -10,10 +10,14 @@ display is active and running."))
   (print-unreadable-object (object stream :type t)))
 
 (defmethod start-handler ((handler display-manager))
-  (connect :tcp))
+  (handler-case (connect :tcp)
+    (sb-bsd-sockets:socket-error (socket-error)
+      (log:error "~A while attempting to connect to Gypsum. Will retry later."
+                 socket-error))))
 
-(defmethod handle-event ((handler display-manager) (event lost-connection-event))
-  (with-mutex (cl-gypsum-client:*write-lock*)
-    ))
+;; TODO: Figure out how to expose disconnection events via the event handler
+;; system.
+;(defmethod handle-event ((handler display-manager) (event lost-connection-event))
+;  )
 
 (defvar *display-manager* (make-instance 'display-manager :start-immediately nil))
