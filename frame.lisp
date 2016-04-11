@@ -11,6 +11,12 @@
   (:documentation "A frame is a VIEW that represents a tree of other VIEWs and
 is used to manage application windows on screen."))
 
+(defmethod print-object ((object view) stream)
+  (print-unreadable-object (object stream :type t)
+    (with-slots (direction ratio first-child second-child) object
+      (format stream ":DIRECTION ~a :RATIO ~(~A~) :FIRST-CHILD ~A :SECOND_CHILD ~A"
+              direction ratio first-child second-child))))
+
 (defun frame-leaf-p (frame)
   "Determines if the given FRAME is a leaf node."
   (and (null (frame-first-child frame))

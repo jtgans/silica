@@ -6,6 +6,9 @@
 INPUT-MANAGER is a singleton class that ensures that the connection to a Gypsum
 display is active and running."))
 
+(defmethod print-object ((object display-manager) stream)
+  (print-unreadable-object (object stream :type t)))
+
 (defmethod start-handler ((handler display-manager))
   (connect :tcp))
 

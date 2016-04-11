@@ -8,6 +8,9 @@
 used to bring up and shutdown the system. Effectively, all this handler does is
 wait for a QUIT-EVENT and then terminates the system."))
 
+(defmethod print-object ((object system-handler) stream)
+  (print-unreadable-object (object stream :type t)))
+
 (defmethod start-handler ((handler system-handler))
   "Starts the SYSTEM-HANDLER in a synchronous way to prevent exits from
 occurring before we're ready."

@@ -25,4 +25,9 @@ accessible to all other threads through the special variable
 (defmethod view-draw (view window-manager)
   "Draws the window manager and all of its frames to the screen.")
 
-(defvar *window-manager* (make-instance 'window-manager :start-immediately nil))
+(defmethod print-object ((object window-manager) stream)
+  (print-unreadable-object (object stream :type t)))
+
+(defvar *window-manager*
+  (make-instance 'window-manager :start-immediately nil)
+  "The singleton instance of the window manager.")
