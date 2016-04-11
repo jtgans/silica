@@ -18,4 +18,6 @@
                (:file "view")
                (:file "frame")
                (:file "window")
-               (:file "windowmanager")))
+               (:file "windowmanager")
+               (:file "displaymanager")
+               (:file "input")))
