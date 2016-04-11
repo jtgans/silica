@@ -10,8 +10,7 @@
   "The currently focused VIEW instance.")
 
 (defclass window-manager (view)
-  ((frame-tree :initform (make-instance 'frame :rect (make-rect :width *screen-width*
-                                                                :height *screen-height*))
+  ((frame-tree :initform nil
                :accessor frame-tree
                :type frame))
   (:documentation "A WINDOW-MANAGER instance manages VIEWs inside of FRAMEs. It

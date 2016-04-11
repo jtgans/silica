@@ -20,4 +20,6 @@ display is active and running."))
 ;(defmethod handle-event ((handler display-manager) (event lost-connection-event))
 ;  )
 
-(defvar *display-manager* (make-instance 'display-manager :start-immediately nil))
+(defvar *display-manager*
+  (make-instance 'display-manager :start-immediately nil)
+  "The singleton instance of the window manager.")
