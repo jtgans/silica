@@ -20,4 +20,5 @@
                (:file "window")
                (:file "windowmanager")
                (:file "displaymanager")
-               (:file "input")))
+               (:file "inputmanager")
+               (:file "term")))
