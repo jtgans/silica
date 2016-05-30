@@ -27,6 +27,9 @@ accessible to all other threads through the special variable
 (defmethod print-object ((object window-manager) stream)
   (print-unreadable-object (object stream :type t)))
 
+(defmethod handle-event ((wm window-manager) (event keyboard-event))
+  "Dispatches a keyboard event throughout the frame-tree.")
+
 (defvar *window-manager*
   (make-instance 'window-manager :start-immediately nil)
   "The singleton instance of the window manager.")
